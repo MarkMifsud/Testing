@@ -1,7 +1,5 @@
 package edu.uom.currencymanager.currencies;
 
-//import java.util.StringTokenizer;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,5 +49,43 @@ public class CurrencyTest {
         assertEquals ("JPY", Result);
     }
 
+    @Test
+    public void testCurrencyNameFromString() throws Exception {
+
+        //Exercise
+        Currency newCurrency2 = Currency.fromString("JPY,Japanese Yen,y");
+
+        String Result = newCurrency2.name;
+
+
+        //Verify
+        assertEquals ("Japanese Yen", Result);
+    }
+
+    @Test
+    public void testCurrencyMajorIsTrueFromString() throws Exception {
+
+        //Exercise
+        Currency newCurrency2 = Currency.fromString("JPY,Japanese Yen,yes");
+
+        boolean Result = newCurrency2.major;
+
+
+        //Verify
+        assertTrue( Result);
+    }
+
+    @Test
+    public void testCurrencyMajorIsFalseFromString() throws Exception {
+
+        //Exercise
+        Currency newCurrency2 = Currency.fromString("JPY,Japanese Yen,anything");
+
+        boolean Result = newCurrency2.major;
+
+
+        //Verify
+        assertTrue( !Result);
+    }
 
 }
