@@ -1,8 +1,6 @@
 package edu.uom.currencymanager;
 
-import edu.uom.currencymanager.currencies.Currency;
-import edu.uom.currencymanager.currencies.CurrencyDatabase;
-import edu.uom.currencymanager.currencies.ExchangeRate;
+import edu.uom.currencymanager.currencies.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,16 +9,22 @@ import java.util.Scanner;
 
 public class CurrencyManager {
 
-    CurrencyDatabase currencyDatabase;
+    public IDatabase currencyDatabase;
+
 
     public CurrencyManager() throws Exception {
-        currencyDatabase = new CurrencyDatabase();
+        CurrencyDatabaseFactory factory = new CurrencyDatabaseFactory();
+        this.currencyDatabase = factory.getCurrencyDatabase();
+
     }
 
 
     public static void main(String[] args) throws Exception {
 
         CurrencyManager manager = new CurrencyManager();
+        manager.currencyDatabase.init();
+
+
 
         Scanner sc = new Scanner(System.in);
 
@@ -69,6 +73,7 @@ public class CurrencyManager {
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
+                    break;
                 case 4:
                     System.out.print("\nEnter the currency code: ");
                     String code = sc.next().toUpperCase();
@@ -84,6 +89,7 @@ public class CurrencyManager {
 
                     try {
                         manager.addCurrency(code, name, major.equalsIgnoreCase("y"));
+                        manager.currencyDatabase.persist();
                     } catch (Exception e) {
                         System.err.println(e.getMessage());
                     }
@@ -93,6 +99,7 @@ public class CurrencyManager {
                     code = sc.next().toUpperCase();
                     try {
                         manager.deleteCurrencyWithCode(code);
+                        manager.currencyDatabase.persist();
                     } catch (Exception e) {
                         System.err.println(e.getMessage());
                     }
@@ -142,7 +149,9 @@ public class CurrencyManager {
         }
 
         //Add currency to database
-        currencyDatabase.addCurrency(new Currency(code,name,major));
+        Currency newCurrency= new Currency(code,name,major);
+        currencyDatabase.addCurrency(newCurrency);
+        currencyDatabase.persist();
 
     }
 
@@ -153,6 +162,7 @@ public class CurrencyManager {
         }
 
         currencyDatabase.deleteCurrency(code);
+        currencyDatabase.persist();
 
     }
 

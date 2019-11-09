@@ -28,6 +28,7 @@ public class DefaultCurrencyServerTest {
         double rate = myserver.getExchangeRate("naystrring","anyotherstring");
 
         assertNotEquals(0,rate);
+        
     }
 
 

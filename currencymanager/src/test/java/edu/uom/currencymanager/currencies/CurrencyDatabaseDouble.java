@@ -1,64 +1,43 @@
 package edu.uom.currencymanager.currencies;
 
 import edu.uom.currencymanager.currencyserver.CurrencyServer;
-import edu.uom.currencymanager.currencyserver.DefaultCurrencyServer;
+import edu.uom.currencymanager.currencies.*;
+
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CurrencyDatabase implements IDatabase{
+public class CurrencyDatabaseDouble implements IDatabase {
 
     CurrencyServer currencyServer;
-   public List<Currency> currencies = new ArrayList<Currency>();
+    public List<Currency> currencies;
     HashMap<String, ExchangeRate> exchangeRates = new HashMap<String, ExchangeRate>();
 
     String currenciesFile = "target" + File.separator + "classes" + File.separator + "currencies.txt";
 
-    public CurrencyDatabase() throws Exception {
-       //init()
+    public CurrencyDatabaseDouble() throws Exception {
+        //init()
         //SInce init(0 accesses the filing system and the DefaultServer it was decoupled
         // it is still called explicitly in the CurrencyManager.main()
-
+        this.currencies =new ArrayList<Currency>();
     }
 
     public void init() throws Exception {
 
-        currencyServer = new DefaultCurrencyServer();
-        //Read in supported currencies from text file
-        BufferedReader reader = new BufferedReader(new FileReader(currenciesFile));
+       currencyServer=new ServerDouble();
 
-        //skip the first line to avoid header
-        String firstLine = reader.readLine();
-        if (!firstLine.equals("code,name,major")) {
-            throw new Exception("Parsing error when reading currencies file.");
-        }
+        Currency a = new Currency("AAA", "Another Alternative Asset", true);
+        Currency b = new Currency("BBB", "Belgian Big Bullion", true);
+        Currency c = new Currency("CCC", "Cool Crypto Coin", false);
+        Currency d= new Currency("DDD", "Dubious Denomination", false);
 
-        while (reader.ready()) {
-            String  nextLine = reader.readLine();
+        currencies.add(a);
+        currencies.add(b);
+        currencies.add(c);
+        currencies.add(d);
 
-            //Check if line has 2 commas
-            int numCommas = 0;
-            char[] chars = nextLine.toCharArray();
-            for (char c : chars) {
-                if (c == ',') numCommas++;
-            }
-
-            if (numCommas != 2) {
-                throw new Exception("Parsing error: expected two commas in line " + nextLine);
-            }
-
-            Currency currency = Currency.fromString(nextLine);
-
-            if (currency.code.length() == 3) {
-                if (!currencyExists(currency.code)) {
-                    currencies.add(currency);
-                }
-            } else {
-                System.err.println("Invalid currency code detected: " + currency.code);
-            }
-        }
     }
 
     public Currency getCurrencyByCode(String code) {
@@ -148,22 +127,11 @@ public class CurrencyDatabase implements IDatabase{
 
         //Persist is decoupled to make testing easier.
         // it is still called explicitly in the CurrencyManager.main()
-       // persist();
+        // persist();
     }
 
-    public void persist() throws Exception {
+    public void persist() throws Exception {}
 
-        //Persist list
-        BufferedWriter writer = new BufferedWriter(new FileWriter(currenciesFile));
 
-        writer.write("code,name,major\n");
-        for (Currency currency : currencies) {
-            writer.write(currency.code + "," + currency.name + "," + (currency.major ? "yes" : "no"));
-            writer.newLine();
-        }
-
-        writer.flush();
-        writer.close();
-    }
 
 }
