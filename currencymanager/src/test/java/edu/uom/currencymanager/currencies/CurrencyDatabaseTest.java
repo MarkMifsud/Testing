@@ -3,17 +3,16 @@
 // Unit tests do not talk to a database but some units are still testable
  //some will likely need to use doubles
 
- import edu.uom.currencymanager.currencyserver.CurrencyServer;
+ import edu.uom.currencymanager.currencyserver.ServerDouble;
  import org.junit.After;
  import org.junit.Before;
  import org.junit.Test;
+
+ import static org.hamcrest.CoreMatchers.is;
  import static org.junit.Assert.*;
 
  import java.util.ArrayList;
  import java.util.List;
-
-
- import javax.swing.text.NumberFormatter;
 
  public class CurrencyDatabaseTest {
 
@@ -57,11 +56,20 @@
      }
 
 
+
+
      @Test
      public void testGetCurrencyByCode() throws Exception{
 
          assertEquals(a, myDB.getCurrencyByCode("AAA"));
      }
+
+     @Test
+     public void testGetCurrencyByCodeInexistentCode() throws Exception{
+
+         assertEquals(null, myDB.getCurrencyByCode("LOL"));
+     }
+
 
      @Test
      public void testCurrencyExists() throws Exception{
@@ -76,8 +84,11 @@
          allCurrencies.add(b);
          allCurrencies.add(c);
 
+         List<Currency> CurrenciesInDB = new ArrayList<Currency>();
+         CurrenciesInDB=  myDB.getCurrencies();
+
          for (int i = 0; i < myDB.currencies.size() ; i++) {
-             assertEquals(myDB.currencies.indexOf(i),allCurrencies.indexOf(i));
+             assertEquals(CurrenciesInDB.indexOf(i),allCurrencies.indexOf(i));
          }
      }
 
@@ -113,6 +124,8 @@
          }
      }
 
+
+
      @Test
      public void testGetExchangeRate() throws Exception{
 
@@ -122,7 +135,7 @@
          ExchangeRate myRate = new ExchangeRate(a,b, 1.00 );
          //myRate.timeLastChecked= result.timeLastChecked; //to make them equal, I'm not testing for time
 
-          assertEquals (myRate.rate, result.rate, 0);
+         assertEquals (myRate.rate, result.rate, 0);
          assertEquals (myRate.sourceCurrency, result.sourceCurrency);
          assertEquals (myRate.destinationCurrency, result.destinationCurrency);
 
@@ -130,6 +143,30 @@
 
      }
 
+     @Test
+     public void testGetExchangeRateSourceNotExist() throws Exception{
+
+         myDB.currencyServer = new ServerDouble();
+
+         try {
+             ExchangeRate result = myDB.getExchangeRate ("ZZZ","BBB");
+         } catch (Exception e) {
+             assertThat(e.getMessage(), is ("Unknown currency: ZZZ"));
+         }
+     }
+
+
+     @Test
+     public void testGetExchangeRateDestinationNotExist() throws Exception{
+
+         myDB.currencyServer = new ServerDouble();
+
+         try {
+             ExchangeRate result = myDB.getExchangeRate ("AAA","ZZZ");
+         } catch (Exception e) {
+             assertThat(e.getMessage(), is ("Unknown currency: ZZZ"));
+         }
+     }
 
 
 

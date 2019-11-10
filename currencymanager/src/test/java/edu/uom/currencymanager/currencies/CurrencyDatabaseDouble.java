@@ -1,7 +1,7 @@
 package edu.uom.currencymanager.currencies;
 
 import edu.uom.currencymanager.currencyserver.CurrencyServer;
-import edu.uom.currencymanager.currencies.*;
+import edu.uom.currencymanager.currencyserver.ServerDouble;
 
 
 import java.io.*;

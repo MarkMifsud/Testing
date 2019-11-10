@@ -1,4 +1,4 @@
-package edu.uom.currencymanager.currencies;
+package edu.uom.currencymanager.currencyserver;
 
 import edu.uom.currencymanager.currencyserver.CurrencyServer;
 

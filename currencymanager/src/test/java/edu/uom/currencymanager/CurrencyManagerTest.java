@@ -3,18 +3,17 @@ package edu.uom.currencymanager;
 // testing the main program is not UNIT TESTING but this file is created in case any units in this class prove testable
 
 
+import edu.uom.currencymanager.currencies.Currency;
 import edu.uom.currencymanager.currencies.CurrencyDatabaseDouble;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import edu.uom.currencymanager.currencies.Currency;
-import edu.uom.currencymanager.currencies.CurrencyDatabase;
 import edu.uom.currencymanager.currencies.ExchangeRate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -83,29 +82,51 @@ public class  CurrencyManagerTest {
     public void testAddCurrency() throws Exception {
 
 
-       // long sizeOfListBeforeAdding = myManager.currencyDatabase.currencies. size();
-       // sizeOfListBeforeAdding++;
+      long sizeOfListBeforeAdding = myManager.currencyDatabase.currencies. size();
+        sizeOfListBeforeAdding++;
 
-        List<Currency> temp =myManager.currencyDatabase.currencies;
-
-        myManager.addCurrency("EEE", "Eventual Euro Eradicator", false);
-
-        List<Currency> temp2 =myManager.currencyDatabase.currencies;
+        //List<Currency> temp =myManager.currencyDatabase.currencies;
+         myManager.addCurrency("EEE", "Eventual Euro Eradicator", false);
+        //List<Currency> temp2 =myManager.currencyDatabase.currencies;
 
        // Currency e = new Currency("DDD", "Dubious Denomination", false);
 
-         assertEquals(temp.size(), temp2.size()-1);
+         //assertEquals(temp.size(), temp2.size());
 
         //assertTrue(myManager.currencyDatabase.currencyExists("EEE"));
 
         //assertTrue( myManager.currencyDatabase.currencies.contains(e) );
 
 
-       // long sizeOfListAfterAdding = myManager.currencyDatabase.currencies.size();
-       // assertEquals(sizeOfListBeforeAdding,  sizeOfListAfterAdding);
+       long sizeOfListAfterAdding = myManager.currencyDatabase.currencies.size();
+        assertEquals(sizeOfListBeforeAdding,  sizeOfListAfterAdding);
 
 
     }
-}
 
+
+    @Test
+    public void testgetMjorCurrencyRates() throws Exception{
+
+        List<ExchangeRate> result = myManager.getMajorCurrencyRates();
+
+        List<ExchangeRate> expected = new ArrayList<ExchangeRate>();
+
+        Currency a = new Currency("AAA", "Another Alternative Asset", true);
+        Currency b = new Currency("BBB", "Belgian Big Bullion", true);
+
+        ExchangeRate ab =new ExchangeRate(a,b,1.00);
+        ExchangeRate ba =new ExchangeRate(b,a,1.00);
+
+        expected.add(ab);
+        expected.add(ba);
+
+
+            assertEquals(expected.toString(),result.toString());
+//this should  not include toString
+
+
+    }
+
+}
 
