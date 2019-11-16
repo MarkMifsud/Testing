@@ -1,4 +1,4 @@
-package um-mark-mifsud;
+package ummarkmifsud;
 
 import static org.junit.Assert.assertTrue;
 

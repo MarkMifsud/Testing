@@ -1,4 +1,4 @@
-package um-mark-mifsud;
+package ummarkmifsud;
 
 /**
  * Hello world!
