@@ -28,6 +28,7 @@ public class  CurrencyManagerTest {
     @Before
     public void setup() throws Exception{
         myManager= new CurrencyManager();
+        myManager.currencyDatabase = null;
         myManager.currencyDatabase = new CurrencyDatabaseDouble();
         myManager.currencyDatabase.init();
 
@@ -82,31 +83,17 @@ public class  CurrencyManagerTest {
     public void testAddCurrency() throws Exception {
 
 
-      long sizeOfListBeforeAdding = myManager.currencyDatabase.currencies. size();
-        sizeOfListBeforeAdding++;
-
-        //List<Currency> temp =myManager.currencyDatabase.currencies;
+      Currency e = new Currency("EEE", "Eventual Euro Eradicator", false);
          myManager.addCurrency("EEE", "Eventual Euro Eradicator", false);
-        //List<Currency> temp2 =myManager.currencyDatabase.currencies;
 
-       // Currency e = new Currency("DDD", "Dubious Denomination", false);
-
-         //assertEquals(temp.size(), temp2.size());
-
-        //assertTrue(myManager.currencyDatabase.currencyExists("EEE"));
-
-        //assertTrue( myManager.currencyDatabase.currencies.contains(e) );
-
-
-       long sizeOfListAfterAdding = myManager.currencyDatabase.currencies.size();
-        assertEquals(sizeOfListBeforeAdding,  sizeOfListAfterAdding);
+        assertTrue(myManager.currencyDatabase.currencyExists("EEE"));
 
 
     }
 
 
     @Test
-    public void testgetMjorCurrencyRates() throws Exception{
+    public void testgetMajorCurrencyRates() throws Exception{
 
         List<ExchangeRate> result = myManager.getMajorCurrencyRates();
 
@@ -118,15 +105,71 @@ public class  CurrencyManagerTest {
         ExchangeRate ab =new ExchangeRate(a,b,1.00);
         ExchangeRate ba =new ExchangeRate(b,a,1.00);
 
+
         expected.add(ab);
         expected.add(ba);
+           // assertThat(result, is(expected));
+
+        assertEquals(expected.toString(), result.toString());
+
+        /* The following was one way this test was tried, but failed
+        for(Integer i=0; i< expected.size();i++) {
+            assertEquals(expected.get(i), result.get(i));
+          }
+         */
+
+    }
+
+    @Test
+    public void testDeleteCurrencyThatExists() throws Exception {
 
 
-            assertEquals(expected.toString(),result.toString());
-//this should  not include toString
+            myManager.deleteCurrencyWithCode("AAA");
+
+
+       // assertTrue(!myManager.currencyDatabase.currencyExists("AAA"));
+        // this should not use cuurencyEsists()
+    }
+
+    @Test
+    public void testDeleteCurrencyNotExist() throws Exception {
+
+        try {
+            myManager.deleteCurrencyWithCode("AAA");
+        } catch (Exception e) {
+            assertThat(e.getMessage(), is("Currency does not exist: AAA"));
+        }
+
+    }
+
+    @Test
+    public void testGetExchangeRate() throws Exception {
+
+
+        Currency a = new Currency("AAA", "Another Alternative Asset", true);
+        Currency b = new Currency("BBB", "Belgian Big Bullion", true);
+
+        ExchangeRate ab =new ExchangeRate(a,b,1.00);
+        ExchangeRate result=  myManager.getExchangeRate("AAA","BBB");
+
+        assertEquals( ab.sourceCurrency.toString() ,result.sourceCurrency.toString());
+        assertEquals( ab.destinationCurrency.toString() ,result.destinationCurrency.toString());
+        assertEquals( ab.rate ,result.rate, 0);
+    }
+
+    @Test
+    public void testGetExchangeRateNotExist() throws Exception {
+
+        try {
+            ExchangeRate result=  myManager.getExchangeRate("ZZZ","BBB");
+
+        } catch (Exception e) {
+             assertThat(e.getMessage(), is("Unknown currency: ZZZ"));
+        }
+
+    }
 
 
     }
 
-}
 

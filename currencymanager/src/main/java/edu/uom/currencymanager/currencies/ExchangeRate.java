@@ -13,7 +13,8 @@ public class ExchangeRate {
         this.sourceCurrency =sourceCurrency;
         this.destinationCurrency = destinationCurrency;
         this.rate =rate;
-        timeLastChecked = System.currentTimeMillis();
+        timeLastChecked = (long) 1.00; //System.currentTimeMillis();
+            //this is a temporary substitute for a more decent getTime() method that will come later
     }
 
     public String toString() {

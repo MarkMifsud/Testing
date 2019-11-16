@@ -14,8 +14,9 @@ public class CurrencyManager {
 
 
     public CurrencyManager() throws Exception {
-        CurrencyDatabaseFactory factory = new CurrencyDatabaseFactory();
-        this.currencyDatabase = factory.getCurrencyDatabase();
+        //CurrencyDatabaseFactory factory = new CurrencyDatabaseFactory();
+        //this.currencyDatabase = factory.getCurrencyDatabase();
+        this.currencyDatabase = new CurrencyDatabase();
 
     }
 
