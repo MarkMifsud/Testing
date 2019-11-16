@@ -7,8 +7,13 @@ import org.junit.Test;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public class AmazonUkTest
 {
+    //user credentials for amazon.co.uk
+    String email ="procompleter@gmail.com";
+    String password ="UnsafePassword123!";
+    String username="Bogus Account";
+
     /**
      * Rigorous Test :-)
      */
