@@ -1,4 +1,4 @@
-Feature: Make sure Amazon.co.uk works
+Feature: Make sure AmazonCoUk works
 
   Scenario: Valid Login
     Given I am a user on the website
