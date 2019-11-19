@@ -23,9 +23,10 @@ public class AmazonUkStepdefs {
             Thread.sleep(seconds*1000);
         } catch (Exception e) {}
     }
+    
     public boolean loggedIn(){
-        String text= browser.findElement(By.id("2114.best.1000002.i0.6b61J4JbJ4JbUQ")).getText();
-        if (text!="Hi, <b>MT</b>") return false;
+        String text= browser.findElement(By.linkText("My Account")).getText();
+        if (text!="My Account") return false;
         else return true;
     }
 
@@ -54,7 +55,7 @@ public class AmazonUkStepdefs {
         // this test is required by Scanarios: Valid Login, Invalid Login
 
         // USer not logged in is characterised by: <span class="nav-line-1">Hello, Sign in</span>
-        browser.get("https://best.aliexpress.com/"); // go to the site
+        browser.get("https://www.next.com.mt/en"); // go to the site
 
         //if (loggedIn()==true) logOut();
 

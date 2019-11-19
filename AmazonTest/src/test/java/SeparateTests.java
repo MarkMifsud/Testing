@@ -1,4 +1,3 @@
-package test.system.google;
 
 import cucumber.api.java.en.Then;
 import org.junit.After;
@@ -27,7 +26,7 @@ public class SeparateTests {
     public void setup() {
         System.setProperty("webdriver.chrome.driver", "C:/users/mark/software/chromedriver.exe");
         browser = new ChromeDriver();
-        browser.get("https://best.aliexpress.com");
+        browser.get("https://www.next.com.mt/en");
     }
 
     @After
@@ -57,12 +56,9 @@ public class SeparateTests {
     @Test
     public void notLoggedIn(){
 
-        String text= browser.findElement(By.className("account-name")).getText();
+        String text= browser.findElement(By.linkText("My Account")).getText();
 
-        //String text= browser.findElement(By.className("account-unsigned")).getClass().toString();
-
-            //assertEquals( "class org.openqa.selenium.remote.RemoteWebElement", text) ;
-        assertEquals( "", text) ;
+        assertEquals( "My Account", text);
 
     }
 
