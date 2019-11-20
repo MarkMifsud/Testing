@@ -85,30 +85,45 @@ public class SeparateTests {
     @Test
     public void LoggingIn(){
 
-
-        browser.findElement(By.className("user-account-info")).click(); //find the Sign In button
-        browser.findElement(By.className("sign-btn")).click(); //find the Sign In button
-        sleep(8);  //give chance for page to load
+        browser.findElement(By.linkText("My Account")).click(); //click account link
+        sleep(3);  //give chance for page to load
 
         //enter email
-        browser.findElement(By.className("notice-close")).click(); //find the Sign In button
-        //sleep(6);
-        browser.findElement(By.id("fm-login-id")).sendKeys("realitysight@gmail.com");
-        browser.findElement(By.id("fm-login-password")).sendKeys("WeakPassword123");
 
-        //browser.findElement(By.className("a-icon a-icon-checkbox")).click();
-        //<i class="a-icon a-icon-checkbox"></i>
-
-        browser.findElement(By.className("fm-button fm-submit password-login")).click();
-        sleep(6);  //give chance for login to be attempted
-
+        browser.findElement(By.id("EmailOrAccountNumber")).sendKeys("procompleter@gmail.com");
+        browser.findElement(By.id("Password")).sendKeys("WeakPassw0rd");
+        browser.findElement(By.id("SignInNow")).click();
+        sleep(4);  //give chance for login to be attempted
 
         //go back home
       //  browser.findElement(By.className("a-link-nav-icon")).click();
 
 
-        String text= browser.findElement(By.className("account-name")).getText();
-        assertEquals(text,"Hello, Bogus");
+        String text= browser.findElement(By.className("myAccountlinkactive")).getText();
+        assertEquals(text,"Mark");
+
+
+    }
+
+
+    @Test
+            public void search() {
+        browser.findElement(By.className("SearchBox")).sendKeys("River Island Mid Auth Paperbag Kristy Jeas");
+        //click search button
+        browser.findElement(By.className("SearchButton")).click();
+
+        browser.findElement(By.className("TitleText")).click();
+        sleep(2);  //to load page
+
+        String text = browser.findElement(By.className("Title")).getText();
+        assertEquals(text,"River Island Mid Auth Paperbag Kristy Jeas");
+    }
+
+
+    @Test
+    public void ShopCart(){
+        String text = browser.findElement(By.className("Title")).getText();
+        assertEquals(text,"River Island Mid Auth Paperbag Kristy Jeas");
 
 
     }

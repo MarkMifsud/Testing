@@ -1,5 +1,11 @@
 Feature: Make sure AmazonCoUk works
 
+  Scenario: Product Search
+    Given I am a logged in user on the website
+    When I search for a product
+    And I select the first product in the list
+    Then I should see the product details
+
   Scenario: Valid Login
     Given I am a user on the website
     When I log in using valid credentials
@@ -9,12 +15,6 @@ Feature: Make sure AmazonCoUk works
     Given I am a user on the website
     When I log in using invalid credentials
     Then I should not be logged in
-
-  Scenario: Product Search
-    Given I am a logged in user on the website
-    When I search for a product
-    And I select the first product in the list
-    Then I should see the product details
 
   Scenario: Add product to cart
     Given I am a logged in user on the website
