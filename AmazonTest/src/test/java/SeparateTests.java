@@ -122,10 +122,49 @@ public class SeparateTests {
 
     @Test
     public void ShopCart(){
-        String text = browser.findElement(By.className("Title")).getText();
-        assertEquals(text,"River Island Mid Auth Paperbag Kristy Jeas");
+        String text = browser.findElement(By.className("ItemCount")).getText();
+        // assertEquals(text,"0"); // passed
+
+        browser.get("https://www.next.com.mt/en/g83212s14#588790");
+    }
+
+    @Test
+    public void AssessCart(){
+
+        String text = browser.findElement(By.className("ItemCount")).getText();
+      //  if(text!="0") {
+            //browser.findElement(By.className("ItemCount")).click();
+           // browser.findElement(By.className("view_edit_bag")).submit();
+            browser.get("https://www.next.com.mt/en/shoppingbag");
+
+            //verify you ar ein cart page
+
+            browser.findElement(By.linkText("Remove Item")).click();
+
+
+        //}
+        //assertEquals(text,"0"); // passed
+
+       // browser.get("https://www.next.com.mt/en/g83212s14#588790");
+    }
+
+
+
+    @Test
+    public void buyItem(){
+
+        // an item
+        browser.get("https://www.next.com.mt/en/style/st445621#984757");
+
+
+        //Add to bag button
+        browser.findElement(By.cssSelector(".addToBagCTA")).click();
+
 
 
     }
+
+
+
 
 }

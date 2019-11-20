@@ -1,40 +1,38 @@
-package test.stepdefs;  // should be deleted
+package test.stepdefs;  // I know this is module is not in this package but if I try to rectify this everything breaks so I'm leaving it as is.
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.Assert.*;
 
+//import pageObjects.NextPOs;   // importing the page object functions
 
-public class AmazonUkStepdefs {
+public class NextStepdefs {
 
-    String text ="";  //any text being read
-
-    public void sleep(int seconds) {
+    static WebDriver browser;
+    public static void sleep(int seconds) {
         try {
             Thread.sleep(seconds*1000);
         } catch (Exception e) {}
     }
-    
-    public boolean loggedIn(){
+
+    public  static boolean loggedIn(){  // returns if the user is logged in or not
 
         boolean loggedOut =false;
         try {
-    loggedOut = browser.findElement(By.linkText("My Account")).isDisplayed();
-    } catch (Exception e){}
+            loggedOut = browser.findElement(By.linkText("My Account")).isDisplayed();
+        } catch (Exception e){}
 
         return !loggedOut;
     }
 
-    public void logOut(){
+    public static void logOut(){  // logs out the user
         browser.findElement(By.className("myAccountlinkactive")).click();
         browser.findElement(By.className("myAccountsignout")).click();
         browser.findElement(By.id("header-logo")).click();
@@ -42,7 +40,7 @@ public class AmazonUkStepdefs {
 
     }
 
-    public void logIn(){
+    public  static void logIn(){   //logs the user in
         browser.findElement(By.linkText("My Account")).click(); //click account link
         sleep(3);  //give chance for page to load
 
@@ -55,13 +53,43 @@ public class AmazonUkStepdefs {
         browser.findElement(By.id("header-logo")).click(); // go to home page
     }
 
-        WebDriver browser;
+
+    public static  String cartCount(){ //returns the number of items in the cart in string format
+        return browser.findElement(By.className("ItemCount")).getText();
+    }
+
+    public static void emptyCart(){  // empties a cart from all items
+        // go to cart page
+        browser.get("https://www.next.com.mt/en/shoppingbag");
+        while(cartCount()!="0"){
+            try{
+                browser.findElement(By.linkText("Remove Item")).click();
+            }catch(Exception e){
+                browser.get("https://www.next.com.mt/en"); // go back home
+                return; }
+            sleep(10);  // till it is removed
+
+        }
+        browser.get("https://www.next.com.mt/en"); // go back home
+    }
+
+    public static  void addItem(){  //adds the item from the product page
+        //Add to bag button
+        browser.findElement(By.cssSelector(".addToBagCTA")).click();
+        browser.findElement(By.id("sli_search_1")).click(); // just to move the focus away
+        sleep(5);  //give time to process request
+
+
+    }
+
+
 
         @Before
         public void setup(){
             System.setProperty("webdriver.chrome.driver", "C:/users/mark/software/chromedriver.exe");
             browser = new ChromeDriver();
             browser.get("https://www.next.com.mt/en"); // go to the site
+            browser.manage().window().maximize();
         }
 
         @After
@@ -168,7 +196,7 @@ public class AmazonUkStepdefs {
         browser.findElement(By.className("TitleText")).click();
         sleep(2);  //to load page
 
-
+        sleep(3);
 
     }
 
@@ -182,56 +210,72 @@ public class AmazonUkStepdefs {
     @Given("my shopping cart is empty")
     public void my_shopping_cart_is_empty() {
 
+        if (cartCount()!="0") emptyCart();
 
-
-
-
-       // throw new cucumber.api.PendingException();
+        assertEquals(cartCount(),"0");
     }
 
     @When("I view the details of a product")
     public void i_view_the_details_of_a_product() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+            //open page of an item (one that coems in one size and colour ideally)
+            browser.get("https://www.next.com.mt/en/gl3396s9#r21957");
+
+        //browser.get("https://www.next.com.mt/en/style/st445621#984757");
+
     }
 
     @When("I choose to buy the product")
     public void i_choose_to_buy_the_product() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+
+        addItem();
+
     }
 
     @Then("my shopping cart should contain {int} item")
     public void my_shopping_cart_should_contain_item(Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
 
+            assertEquals(cartCount(),int1.toString());
 
-        throw new cucumber.api.PendingException();
     }
 
-    @When("I add <num-products> products to my shopping cart")
-    public void i_add_num_products_products_to_my_shopping_cart() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+    @When("I add {int} products to my shopping cart")
+    public void i_add_num_products_products_to_my_shopping_cart(Integer int2) {
+
+            // visit product page
+            browser.get("https://www.next.com.mt/en/gl3396s9#r21957");
+            for (int i=0;i<int2; i++ ) addItem();
+
+
     }
 
-    @Then("my shopping cart should contain <num-products> items")
-    public void my_shopping_cart_should_contain_num_products_items() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+    @Then("my shopping cart should contain {int} items")
+    public void my_shopping_cart_should_contain_num_products_items(Integer int2) {
+
+        assertEquals(cartCount(), int2.toString() );
     }
 
     @Given("my shopping cart has {int} products")
     public void my_shopping_cart_has_products(Integer int1) {
-       // browser = new ChromeDriver();
 
-        throw new cucumber.api.PendingException();
+        emptyCart();
+
+        browser.get("https://www.next.com.mt/en/style/st445621#984757");
+        addItem();
+
+        browser.get("https://www.next.com.mt/en/gl3396s9#r21957");
+        for (int i=0;i<int1-1; i++ ) addItem();
+
+        assertEquals(cartCount(),int1.toString());
+
+
     }
 
     @When("I remove the first product in my cart")
     public void i_remove_the_first_product_in_my_cart() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+
+        browser.get("https://www.next.com.mt/en/shoppingbag");
+        browser.findElement(By.linkText("Remove Item")).click();
+        sleep(5); // wait for request to process
     }
 
 
