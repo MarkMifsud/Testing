@@ -17,9 +17,8 @@ public class CurrencyDatabase implements IDatabase{
     String currenciesFile = "target" + File.separator + "classes" + File.separator + "currencies.txt";
 
     public CurrencyDatabase() throws Exception {
-       //init()
-        //SInce init(0 accesses the filing system and the DefaultServer it was decoupled
-        // it is still called explicitly in the CurrencyManager.main()
+       init();
+        //Testing init() essentially tests this initialiser
 
     }
 
@@ -84,7 +83,7 @@ public class CurrencyDatabase implements IDatabase{
         List<Currency> result = new ArrayList<Currency>();
 
         for (Currency currency : currencies) {
-            if (currency.major) {
+            if (currency.major==true) {
                 result.add(currency);
             }
         }

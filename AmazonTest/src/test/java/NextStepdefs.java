@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 public class NextStepdefs {
 
     static WebDriver browser;
+
     public static void sleep(int seconds) {
         try {
             Thread.sleep(seconds*1000);
@@ -103,30 +104,22 @@ public class NextStepdefs {
     @Given("I am a user on the website")
     public void i_am_a_user_on_the_website() {
 
-
-        // The user is not logged in, therefore this module should check logout the user if necessary
+        // This logs out the user if necessary
         // this test is required by Scanarios: Valid Login, Invalid Login
-
-        // USer not logged in is characterised by: <span class="nav-line-1">Hello, Sign in</span>
 
         if (loggedIn()==true) logOut();
 
-
         assertEquals(loggedIn(), false) ;
-
 
     }
 
     @When("I log in using valid credentials")
     public void i_log_in_using_valid_credentials() {
-        // Write code here that turns the phrase above into concrete actions
-
 
         logIn();
 
         String text= browser.findElement(By.className("myAccountlinkactive")).getText();
         assertEquals(text,"Mark");
-
     }
 
     @Then("I should be logged in")
@@ -182,7 +175,6 @@ public class NextStepdefs {
     @When("I search for a product")
     public void i_search_for_a_product() {
 
-            //enter string in search box
         sleep(5);
         browser.findElement(By.className("SearchBox")).sendKeys("River Island Mid Auth Paperbag Kristy Jeas");
         //click search button
@@ -194,9 +186,7 @@ public class NextStepdefs {
     public void i_select_the_first_product_in_the_list() {
 
         browser.findElement(By.className("TitleText")).click();
-        sleep(2);  //to load page
-
-        sleep(3);
+        sleep(5);  //to load page
 
     }
 

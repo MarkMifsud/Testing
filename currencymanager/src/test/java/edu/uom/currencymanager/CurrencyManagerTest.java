@@ -27,10 +27,7 @@ public class  CurrencyManagerTest {
 
     @Before
     public void setup() throws Exception{
-        myManager= new CurrencyManager();
-        myManager.currencyDatabase = null;
-        myManager.currencyDatabase = new CurrencyDatabaseDouble();
-        myManager.currencyDatabase.init();
+        myManager= new CurrencyManager(true); //true means it is getting a test database
 
     }
 
@@ -110,7 +107,7 @@ public class  CurrencyManagerTest {
         expected.add(ba);
            // assertThat(result, is(expected));
 
-        assertEquals(expected.toString(), result.toString());
+        assertEquals(expected, result);
 
         /* The following was one way this test was tried, but failed
         for(Integer i=0; i< expected.size();i++) {

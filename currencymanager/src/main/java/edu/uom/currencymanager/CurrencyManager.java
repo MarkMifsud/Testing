@@ -11,20 +11,26 @@ import java.util.Scanner;
 public class CurrencyManager {
 
     public IDatabase currencyDatabase;
+    public CurrencyDatabaseFactory factory = new CurrencyDatabaseFactory();
 
 
     public CurrencyManager() throws Exception {
-        //CurrencyDatabaseFactory factory = new CurrencyDatabaseFactory();
-        //this.currencyDatabase = factory.getCurrencyDatabase();
-        this.currencyDatabase = new CurrencyDatabase();
+    // this is the default constructor it uses a production database
+       this.currencyDatabase = factory.getCurrencyDatabase();
+
+    }
+
+    public CurrencyManager(boolean testMode) throws Exception {
+        // the test suite passes the testMode parameter as true which looks up a database double instead
+        this.currencyDatabase = factory.getCurrencyDatabase(testMode);
 
     }
 
 
     public static void main(String[] args) throws Exception {
 
-        CurrencyManager manager = new CurrencyManager();
-        manager.currencyDatabase.init();
+       CurrencyManager manager = new CurrencyManager();
+
 
 
 

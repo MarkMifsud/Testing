@@ -49,8 +49,10 @@
          majorCurrencies.add(a);
          majorCurrencies.add(b);
 
+         List<Currency> result = myDB.getMajorCurrencies();
+
          for (int i = 0; i < myDB.currencies.size() ; i++) {
-              assertEquals(myDB.currencies.indexOf(i),majorCurrencies.indexOf(i));
+              assertEquals(result.indexOf(i),majorCurrencies.indexOf(i));
          }
 
      }
