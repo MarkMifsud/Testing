@@ -38,8 +38,8 @@ Feature: Make sure nextComMt works
   Scenario: Add multiple products to cart
     Given I am a logged in user on the website
     And my shopping cart is empty
-    When I add 10 products to my shopping cart
-    Then my shopping cart should contain 10 items
+    When I add 9 products to my shopping cart
+    Then my shopping cart should contain 9 items
 
   Scenario: Removing a product from cart
     Given I am a logged in user on the website

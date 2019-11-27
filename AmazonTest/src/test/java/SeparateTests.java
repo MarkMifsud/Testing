@@ -90,6 +90,7 @@ public class SeparateTests {
 
         //enter email
 
+        browser.findElement(By.id("EmailOrAccountNumber")).clear();
         browser.findElement(By.id("EmailOrAccountNumber")).sendKeys("procompleter@gmail.com");
         browser.findElement(By.id("Password")).sendKeys("WeakPassw0rd");
         browser.findElement(By.id("SignInNow")).click();
@@ -108,7 +109,7 @@ public class SeparateTests {
 
     @Test
             public void search() {
-        browser.findElement(By.className("SearchBox")).sendKeys("River Island Mid Auth Paperbag Kristy Jeas");
+        browser.findElement(By.className("SearchBox")).sendKeys("Silver Tone Sparkle Short Necklace");
         //click search button
         browser.findElement(By.className("SearchButton")).click();
 
@@ -116,7 +117,7 @@ public class SeparateTests {
         sleep(2);  //to load page
 
         String text = browser.findElement(By.className("Title")).getText();
-        assertEquals(text,"River Island Mid Auth Paperbag Kristy Jeas");
+        assertEquals(text,"Silver Tone Sparkle Short Necklace");
     }
 
 
@@ -124,8 +125,21 @@ public class SeparateTests {
     public void ShopCart(){
         String text = browser.findElement(By.className("ItemCount")).getText();
         // assertEquals(text,"0"); // passed
+        browser.manage().window().maximize();
+      //  browser.get("https://www.next.com.mt/en/g83212s14#588790");
+        browser.findElement(By.linkText("My Account")).click(); //click account link
+        sleep(3);  //give chance for page to load
 
-        browser.get("https://www.next.com.mt/en/g83212s14#588790");
+        //enter email
+
+        browser.findElement(By.id("EmailOrAccountNumber")).sendKeys("procompleter@gmail.com");
+        browser.findElement(By.id("Password")).sendKeys("WeakPassw0rd");
+        browser.findElement(By.id("SignInNow")).click();
+        sleep(4);  //give chance for login to be attempted
+        browser.findElement(By.id("header-logo")).click(); // go to home page
+
+      //  browser.findElement(By.linkText("CheckOut")).click();
+        browser.findElement(By.cssSelector(".nxbtn,.primary" )).click();
     }
 
     @Test
