@@ -1,8 +1,7 @@
 package mt.com.next.site;
 
 import junit.framework.Assert;
-import mt.com.next.site.NextModel;
-import mt.com.next.site.enums.NextModelStates;
+import enums.NextModelStates;
 
 import nz.ac.waikato.modeljunit.*;
 import nz.ac.waikato.modeljunit.coverage.ActionCoverage;
@@ -174,7 +173,7 @@ public class NextModelTest implements FsmModel  {
         tester.addCoverageMetric(new TransitionPairCoverage());
         tester.addCoverageMetric(new StateCoverage());
         tester.addCoverageMetric(new ActionCoverage());
-        tester.generate(30);
+        tester.generate(35);
         tester.printCoverage();
     }
 

@@ -1,4 +1,4 @@
-package mt.com.next.site.enums;
+package enums;
 
 public enum NextModelStates {
     LOGGED_OUT,  //on home page and not logged in
