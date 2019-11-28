@@ -12,13 +12,21 @@ public class NextModel {
 
     public static WebDriver browser;
 
-    public void setBroswer(){
+    public void setBrowser(){
         browser = new ChromeDriver();
 
         System.setProperty("webdriver.chrome.driver", "C:/users/mark/software/chromedriver.exe");
 
         browser.get("https://www.next.com.mt/en"); // go to the site
         browser.manage().window().maximize();
+
+        boolean loggedOut=false;
+        try {
+            loggedOut =browser.findElement(By.linkText("My Account")).isDisplayed();
+        } catch(Exception e){
+        }
+        if (!loggedOut) logOut();
+
     }
 
 
@@ -65,10 +73,17 @@ public class NextModel {
             loggedIn = true;
         } else if (loggedOut) {
             // log in
-            if(browser==null) setBroswer();
+            if(browser==null) setBrowser();
 
-            // uncomment the follwong line
-            browser.findElement(By.linkText("My Account")).click(); //click account link
+
+            try {  // due to browser cache it could be the case that the logout start case is bypassed, this rectifies the issue
+
+                browser.findElement(By.linkText("My Account")).click(); //click account link
+            } catch(Exception e){
+                loggedOut=false;
+                loggedIn = true;
+                return true;
+            }
 
 
 
@@ -77,6 +92,7 @@ public class NextModel {
             //enter email
             browser.findElement(By.id("EmailOrAccountNumber")).clear(); //clear anything it contains
             browser.findElement(By.id("EmailOrAccountNumber")).sendKeys("procompleter@gmail.com");
+            browser.findElement(By.id("Password")).clear();
             browser.findElement(By.id("Password")).sendKeys("WeakPassw0rd");
             browser.findElement(By.id("SignInNow")).click();
             sleep(4);  //give chance for login to be attempted

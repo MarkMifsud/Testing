@@ -34,6 +34,7 @@ public class NextModelTest implements FsmModel  {
         }
         modelState = NextModelStates.LOGGED_OUT;
         loggedOut=true; loggedIn = false; viewingResults = false; viewingProduct = false; cartPopulated= false; viewingCart= false; checkingOut= false ;
+
     }
 
     //Other methods  (Transitions)
@@ -91,9 +92,9 @@ public class NextModelTest implements FsmModel  {
     public boolean clickProductGuard() {  return getState().equals(NextModelStates.VIEW_RESULTS);    }
     public @Action void clickProduct() {
 
-        systemUnderTest.search();
-        viewingResults = true;
-        viewingProduct = false;
+        systemUnderTest.clickSearchResult();
+        viewingResults = false;
+        viewingProduct = true;
 
         modelState = NextModelStates.VIEW_PRODUCT;
 
@@ -102,7 +103,7 @@ public class NextModelTest implements FsmModel  {
 
 
     public boolean goHomeGuard() {  return getState().equals(NextModelStates.VIEW_RESULTS);    }
-    public @Action void goHome() {  //going to the log in state which is equivalent to being logged in and on the home page
+    public @Action void goHome() {  //From Search Results page, going to the log in state which is equivalent to being logged in and on the home page
 
         systemUnderTest.logIn();
 
@@ -156,7 +157,7 @@ public class NextModelTest implements FsmModel  {
         systemUnderTest.checkOut();
         viewingCart =false;
         checkingOut=true;
-        modelState = NextModelStates.VIEW_CART;
+        modelState = NextModelStates.CHECKOUT;
 
         Assert.assertEquals("The model's Checkout state does not match the SUT's Checkout state.", checkingOut, systemUnderTest.isCheckingOut() );
     }
@@ -173,7 +174,7 @@ public class NextModelTest implements FsmModel  {
         tester.addCoverageMetric(new TransitionPairCoverage());
         tester.addCoverageMetric(new StateCoverage());
         tester.addCoverageMetric(new ActionCoverage());
-        tester.generate(25);
+        tester.generate(30);
         tester.printCoverage();
     }
 
