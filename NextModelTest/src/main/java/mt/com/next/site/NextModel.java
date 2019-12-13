@@ -75,7 +75,6 @@ public class NextModel {
             // log in
             if(browser==null) setBrowser();
 
-
             try {  // due to browser cache it could be the case that the logout start case is bypassed, this rectifies the issue
 
                 browser.findElement(By.linkText("My Account")).click(); //click account link
@@ -222,7 +221,11 @@ public class NextModel {
            // check out
             browser.findElement(By.cssSelector(".nxbtn,.primary.GoToCheckout" )).click();
             viewingCart =false;
+            loggedIn = false;
             checkingOut=true;
+
+            browser.quit();
+            browser=null;
 
         } else {
             throw new IllegalStateException();

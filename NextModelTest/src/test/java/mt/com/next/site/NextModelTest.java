@@ -155,6 +155,7 @@ public class NextModelTest implements FsmModel  {
 
         systemUnderTest.checkOut();
         viewingCart =false;
+        loggedIn =false;
         checkingOut=true;
         modelState = NextModelStates.CHECKOUT;
 
